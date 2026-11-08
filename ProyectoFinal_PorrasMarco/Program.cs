@@ -52,6 +52,7 @@ builder.Services.AddScoped<CarreraServicio>();
 builder.Services.AddScoped<CursoServicio>();
 builder.Services.AddScoped<OfertaServicio>();
 builder.Services.AddScoped<MatriculaServicio>();
+builder.Services.AddScoped<ListaCursoServicio>();
 builder.Services.AddScoped<ReporteServicio>();
 builder.Services.AddScoped<NavegacionDocenteFilter>();
 

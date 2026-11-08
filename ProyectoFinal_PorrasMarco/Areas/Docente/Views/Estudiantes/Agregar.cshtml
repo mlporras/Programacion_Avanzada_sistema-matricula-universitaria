@@ -1,0 +1,45 @@
+@model JustificacionEstudianteVm
+<p class="miga">Estudiantes / Agregar</p>
+<h1>Agregar estudiante</h1>
+<p class="ayuda">@Model.Curso. La justificación queda registrada para la consulta administrativa.</p>
+@if (!ViewData.ModelState.IsValid)
+{
+    var causa = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
+    <div class="alerta alerta-error" role="alert">
+        <strong>Error · No se agregó el estudiante</strong>
+        <p>@(causa ?? "La lista no cambió.")</p>
+    </div>
+}
+@if (Model.Opciones.Count == 0)
+{
+    <section class="estado-vacio">
+        <p class="meta">Estado vacío</p>
+        <h2>No hay estudiantes disponibles</h2>
+        <p>No quedan estudiantes activos de la carrera fuera de esta lista.</p>
+        <a class="btn btn-primario" href="/docente/cursos/@Model.CursoId/estudiantes">Volver a la lista</a>
+    </section>
+}
+else
+{
+    <form class="tarjeta formulario" method="post">
+        @Html.AntiForgeryToken()
+        <div class="campo">
+            <label for="EstudianteId">Estudiante</label>
+            <select id="EstudianteId" name="EstudianteId">
+                <option value="">Seleccione un estudiante</option>
+                @foreach (var opcion in Model.Opciones)
+                {
+                    <option value="@opcion.Id" selected="@(Model.EstudianteId == opcion.Id ? "selected" : null)">@opcion.Nombre</option>
+                }
+            </select>
+        </div>
+        <div class="campo">
+            <label for="Justificacion">Justificación</label>
+            <textarea id="Justificacion" name="Justificacion" rows="3">@Model.Justificacion</textarea>
+        </div>
+        <div class="acciones">
+            <button class="btn btn-primario" type="submit">Confirmar</button>
+            <a class="btn btn-secundario" href="/docente/cursos/@Model.CursoId/estudiantes">Cancelar</a>
+        </div>
+    </form>
+}

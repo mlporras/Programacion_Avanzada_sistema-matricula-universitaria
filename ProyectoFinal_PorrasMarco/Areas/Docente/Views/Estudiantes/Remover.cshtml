@@ -1,0 +1,27 @@
+@model RemoverEstudianteVm
+<p class="miga">Estudiantes / Remover</p>
+<h1>Remover estudiante</h1>
+<p class="ayuda">@Model.Estudiante saldrá de la lista activa de @Model.Curso. La matrícula retirada y las notas se conservan.</p>
+@if (!ViewData.ModelState.IsValid)
+{
+    var causa = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
+    <div class="alerta alerta-error" role="alert">
+        <strong>Error · No se removió el estudiante</strong>
+        <p>@(causa ?? "La lista no cambió.")</p>
+    </div>
+}
+<form class="tarjeta formulario" method="post">
+    @Html.AntiForgeryToken()
+    <div class="alerta alerta-error" role="alert">
+        <strong>Advertencia</strong>
+        <p>Esta acción retira la matrícula activa. No borra el historial ni la calificación.</p>
+    </div>
+    <div class="campo">
+        <label for="Justificacion">Justificación</label>
+        <textarea id="Justificacion" name="Justificacion" rows="3">@Model.Justificacion</textarea>
+    </div>
+    <div class="acciones">
+        <button class="btn btn-primario" type="submit">Confirmar retiro</button>
+        <a class="btn btn-secundario" href="/docente/cursos/@Model.CursoId/estudiantes">Cancelar</a>
+    </div>
+</form>

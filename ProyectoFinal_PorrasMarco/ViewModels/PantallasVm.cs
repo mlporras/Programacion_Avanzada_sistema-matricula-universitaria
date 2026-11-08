@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ProyectoFinal_PorrasMarco.ViewModels;
 
 public class UsuarioFilaVm
@@ -177,8 +179,71 @@ public class CursoDocenteFilaVm
     public int Estudiantes { get; set; }
 }
 
+public class ConfirmacionListaVm
+{
+    public int CursoId { get; set; }
+    public string Mensaje { get; set; } = string.Empty;
+    public string Estudiante { get; set; } = string.Empty;
+    public string Curso { get; set; } = string.Empty;
+}
+
+public class EstudianteListaVm
+{
+    public int MatriculaId { get; set; }
+    public string Nombre { get; set; } = string.Empty;
+    public string Correo { get; set; } = string.Empty;
+}
+
+public class EstudianteOpcionVm
+{
+    public int Id { get; set; }
+    public string Nombre { get; set; } = string.Empty;
+}
+
+public class ListaEstudiantesVm
+{
+    public int CursoId { get; set; }
+    public string Codigo { get; set; } = string.Empty;
+    public string Nombre { get; set; } = string.Empty;
+    public string Periodo { get; set; } = string.Empty;
+    public List<EstudianteListaVm> Estudiantes { get; set; } = [];
+}
+
+public class JustificacionEstudianteVm
+{
+    public int CursoId { get; set; }
+    public string Curso { get; set; } = string.Empty;
+    public int? EstudianteId { get; set; }
+    [Required(ErrorMessage = "La justificación es obligatoria.")]
+    public string Justificacion { get; set; } = string.Empty;
+    public List<EstudianteOpcionVm> Opciones { get; set; } = [];
+}
+
+public class RemoverEstudianteVm
+{
+    public int CursoId { get; set; }
+    public int MatriculaId { get; set; }
+    public string Curso { get; set; } = string.Empty;
+    public string Estudiante { get; set; } = string.Empty;
+    [Required(ErrorMessage = "La justificación es obligatoria.")]
+    public string Justificacion { get; set; } = string.Empty;
+}
+
+public class MovimientoFilaVm
+{
+    public DateTime Fecha { get; set; }
+    public string Accion { get; set; } = string.Empty;
+    public string Curso { get; set; } = string.Empty;
+    public string Estudiante { get; set; } = string.Empty;
+    public string Responsable { get; set; } = string.Empty;
+    public string Justificacion { get; set; } = string.Empty;
+    public string EstadoAnterior { get; set; } = string.Empty;
+    public string EstadoNuevo { get; set; } = string.Empty;
+}
+
 public class DetalleCursoDocenteVm
 {
+    public int Id { get; set; }
     public string Codigo { get; set; } = string.Empty;
     public string Nombre { get; set; } = string.Empty;
     public string Carrera { get; set; } = string.Empty;

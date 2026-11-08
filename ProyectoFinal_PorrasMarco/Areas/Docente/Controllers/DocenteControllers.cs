@@ -59,6 +59,7 @@ public class CursosController : ControladorAplicacion
 
         return View(new DetalleCursoDocenteVm
         {
+            Id = curso.Id,
             Codigo = curso.Codigo,
             Nombre = curso.Nombre,
             Carrera = curso.Carrera.Nombre,
@@ -73,9 +74,6 @@ public class CursosController : ControladorAplicacion
 [Authorize(Roles = RolesSistema.Docente)]
 public class PendienteController : Controller
 {
-    [HttpGet("/docente/estudiantes")]
-    public IActionResult Estudiantes() => Vista("Estudiantes", "estudiantes");
-
     [HttpGet("/docente/calificaciones")]
     public IActionResult Calificaciones() => Vista("Calificaciones", "calificaciones");
 
