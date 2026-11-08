@@ -1,7 +1,7 @@
 @model PanelAdministradorVm
 <p class="miga">Panel</p>
 <h1>Panel del administrador</h1>
-<p class="ayuda">Resumen de cuentas y carreras. Los cursos y la matrícula se agregan en el siguiente avance.</p>
+<p class="ayuda">Resumen de la operación académica. Los módulos de una etapa posterior no modifican datos.</p>
 <section class="indicadores">
     <article class="indicador">
         <span>Usuarios</span>
@@ -9,15 +9,45 @@
         <span>Cuentas registradas</span>
     </article>
     <article class="indicador">
-        <span>Carreras</span>
+        <span>Cursos</span>
         <strong>@Model.CursosActivos</strong>
-        <span>Carreras registradas</span>
+        <span>Oferta activa</span>
+    </article>
+    <article class="indicador">
+        <span>Matrículas</span>
+        <strong>@Model.MatriculasActivas</strong>
+        <span>Matrículas activas</span>
+    </article>
+    <article class="indicador">
+        <span>Auditoría</span>
+        <strong>—</strong>
+        <span>Etapa posterior</span>
     </article>
 </section>
 <section class="accesos">
     <article class="acceso">
-        <h2>Carreras</h2>
-        <p>Crear y actualizar las carreras de la institución.</p>
+        <h2>Usuarios</h2>
+        <p>Registrar cuentas y asignar roles.</p>
+        <a href="/administrador/usuarios">Abrir</a>
+    </article>
+    <article class="acceso">
+        <h2>Carreras y cursos</h2>
+        <p>Crear carreras, cursos y asignar docentes.</p>
         <a href="/administrador/carreras">Abrir</a>
+    </article>
+    <article class="acceso">
+        <h2>Matrículas</h2>
+        <p>Ajustes administrativos de listas. Etapa posterior.</p>
+        <a href="/administrador/matriculas">Abrir</a>
+    </article>
+    <article class="acceso">
+        <h2>Calificaciones</h2>
+        <p>Supervisión institucional. Etapa posterior.</p>
+        <a href="/administrador/calificaciones">Abrir</a>
+    </article>
+    <article class="acceso">
+        <h2>Auditoría</h2>
+        <p>Responsable, fecha y justificación. Etapa posterior.</p>
+        <a href="/administrador/auditoria">Abrir</a>
     </article>
 </section>

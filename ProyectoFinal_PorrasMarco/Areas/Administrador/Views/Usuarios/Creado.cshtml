@@ -1,0 +1,22 @@
+@model UsuarioCreadoVm
+<p class="miga">Usuarios / Confirmación</p>
+<h1>Usuario creado</h1>
+<p class="ayuda">La cuenta quedó registrada con el rol elegido y ya puede consultarse en la lista.</p>
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <div class="alerta alerta-exito" role="status">
+        <strong>Éxito · @Model.Mensaje</strong>
+        <p>@(Model.Detalle ?? "La persona aparece en la lista con el rol seleccionado.")</p>
+    </div>
+}
+<div class="tarjeta">
+    <dl class="resumen">
+        <div><dt>Nombre</dt><dd>@Model.Nombre</dd></div>
+        <div><dt>Correo</dt><dd>@Model.Correo</dd></div>
+        <div><dt>Rol</dt><dd>@Model.Rol</dd></div>
+        <div><dt>Estado</dt><dd>@Model.Estado</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        <a class="btn btn-primario" href="/administrador/usuarios">Volver a usuarios</a>
+    </div>
+</div>

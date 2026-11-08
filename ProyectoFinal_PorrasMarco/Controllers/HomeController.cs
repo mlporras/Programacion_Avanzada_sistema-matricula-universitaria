@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFinal_PorrasMarco.Models;
 
@@ -19,20 +18,12 @@ public class HomeController : Controller
             return Redirect("/administrador");
         }
 
-        return Redirect("/sesion");
-    }
-
-    [Authorize]
-    [HttpGet("/sesion")]
-    public IActionResult Sesion()
-    {
-        if (User.IsInRole(RolesSistema.Administrador))
+        if (User.IsInRole(RolesSistema.Docente))
         {
-            return Redirect("/administrador");
+            return Redirect("/docente/cursos");
         }
 
-        ViewData["Title"] = "Sesión iniciada";
-        return View();
+        return Redirect("/estudiante");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

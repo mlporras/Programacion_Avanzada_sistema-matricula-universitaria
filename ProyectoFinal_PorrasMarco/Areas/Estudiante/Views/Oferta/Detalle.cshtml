@@ -1,0 +1,25 @@
+@model DetalleCursoDisponibleVm
+<p class="miga">Cursos disponibles / Detalle</p>
+<h1>Curso disponible</h1>
+<p class="ayuda">Revise el resumen antes de matricular. El curso pertenece a la carrera seleccionada.</p>
+<div class="tarjeta">
+    <dl class="resumen">
+        <div><dt>Código</dt><dd>@Model.Codigo</dd></div>
+        <div><dt>Nombre</dt><dd>@Model.Nombre</dd></div>
+        <div><dt>Periodo</dt><dd>@Model.Periodo</dd></div>
+        <div><dt>Docente</dt><dd>@Model.Docente</dd></div>
+        <div><dt>Créditos</dt><dd>@(Model.Creditos ?? "No indicados")</dd></div>
+        <div><dt>Estado de matrícula</dt><dd>@(Model.YaMatriculado ? "Ya matriculado" : "Disponible")</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        @if (!Model.YaMatriculado)
+        {
+            <a class="btn btn-primario" href="/estudiante/cursos/@Model.Id/confirmar">Matricular</a>
+        }
+        else
+        {
+            <a class="btn btn-secundario" href="/estudiante/mis-cursos">Ver Mis cursos</a>
+        }
+        <a class="btn btn-texto" href="/estudiante/cursos">Volver a la oferta</a>
+    </div>
+</div>

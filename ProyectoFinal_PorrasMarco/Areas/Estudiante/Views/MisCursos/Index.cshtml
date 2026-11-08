@@ -1,0 +1,64 @@
+@model MisCursosVm
+<p class="miga">Inicio / Mis cursos</p>
+<h1>Mis cursos</h1>
+@if (Model.Activos.Count == 0)
+{
+    <section class="estado-vacio">
+        <p class="meta">Estado vacío</p>
+        <h2>No tiene cursos matriculados</h2>
+        <p>Cuando matricule un curso disponible, aparecerá en esta lista.</p>
+        <a class="btn btn-primario" href="/estudiante/cursos">Ver cursos disponibles</a>
+    </section>
+}
+else
+{
+    <p class="ayuda">Carga académica activa. El detalle es de solo lectura y el retiro pide confirmación.</p>
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr><th>Código</th><th>Curso</th><th>Periodo</th><th>Docente</th><th>Estado</th><th>Acción</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var curso in Model.Activos)
+                {
+                    <tr>
+                        <td>@curso.Codigo</td>
+                        <td>@curso.Nombre</td>
+                        <td>@curso.Periodo</td>
+                        <td>@curso.Docente</td>
+                        <td><span class="insignia insignia-activo">@curso.Estado</span></td>
+                        <td>
+                            <a href="/estudiante/mis-cursos/@curso.MatriculaId">Ver detalle</a>
+                            <a href="/estudiante/mis-cursos/@curso.MatriculaId/retirar">Retirar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@if (Model.Retiros.Count > 0)
+{
+    <section class="seccion">
+        <h2>Historial de retiros</h2>
+        <p class="nota">El retiro no borra el registro académico.</p>
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr><th>Código</th><th>Curso</th><th>Periodo</th><th>Estado</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var curso in Model.Retiros)
+                    {
+                        <tr>
+                            <td>@curso.Codigo</td>
+                            <td>@curso.Nombre</td>
+                            <td>@curso.Periodo</td>
+                            <td><span class="insignia insignia-inactivo">@curso.Estado</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}

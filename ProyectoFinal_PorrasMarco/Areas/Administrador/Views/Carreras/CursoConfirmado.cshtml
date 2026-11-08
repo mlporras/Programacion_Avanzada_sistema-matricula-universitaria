@@ -1,0 +1,31 @@
+@model ConfirmacionCursoVm
+<p class="miga">Carreras y cursos / Confirmación</p>
+<h1>@(Model.Mensaje ?? "Curso guardado")</h1>
+<p class="ayuda">El curso quedó asociado a la carrera y al periodo indicados.</p>
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <div class="alerta alerta-exito" role="status">
+        <strong>Éxito · @Model.Mensaje</strong>
+        @if (!string.IsNullOrEmpty(Model.Detalle))
+        {
+            <p>@Model.Detalle</p>
+        }
+        else
+        {
+            <p>La oferta muestra el curso en la carrera y el periodo elegidos.</p>
+        }
+    </div>
+}
+<div class="tarjeta">
+    <dl class="resumen">
+        <div><dt>Código</dt><dd>@Model.Codigo</dd></div>
+        <div><dt>Nombre</dt><dd>@Model.Nombre</dd></div>
+        <div><dt>Carrera</dt><dd>@Model.Carrera</dd></div>
+        <div><dt>Periodo</dt><dd>@Model.Periodo</dd></div>
+        <div><dt>Estado</dt><dd>@Model.Estado</dd></div>
+        <div><dt>Docente</dt><dd>@Model.Docente</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        <a class="btn btn-primario" href="/administrador/carreras">Volver a carreras y cursos</a>
+    </div>
+</div>

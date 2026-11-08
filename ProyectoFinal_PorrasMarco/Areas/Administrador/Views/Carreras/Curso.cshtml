@@ -1,0 +1,64 @@
+@model CursoFormVm
+<p class="miga">@ViewData["Miga"]</p>
+<h1>Curso</h1>
+<p class="ayuda">Formulario de creación o actualización. La carrera y el docente deben estar activos.</p>
+@if (!ViewData.ModelState.IsValid)
+{
+    var causa = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
+    <div class="alerta alerta-error" role="alert">
+        <strong>Error · No se guardó la configuración</strong>
+        <p>@(causa ?? "El código ya existe o la carrera o el docente no está activo.")</p>
+    </div>
+}
+<form class="tarjeta formulario" method="post">
+    @Html.AntiForgeryToken()
+    <div class="campo">
+        <label asp-for="Codigo">Código</label>
+        <input asp-for="Codigo" />
+        <span asp-validation-for="Codigo" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Nombre">Nombre</label>
+        <input asp-for="Nombre" />
+        <span asp-validation-for="Nombre" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Creditos">Créditos</label>
+        <input asp-for="Creditos" />
+        <span class="nota">Opcional. Si se indica, use un valor entre 1 y 30.</span>
+        <span asp-validation-for="Creditos" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="CarreraId">Carrera</label>
+        <select asp-for="CarreraId" asp-items="Model.Carreras">
+            <option value="">Seleccione una carrera</option>
+        </select>
+        <span asp-validation-for="CarreraId" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Periodo">Periodo</label>
+        <input asp-for="Periodo" placeholder="@DatosDemostracion.PeriodoActual" />
+        <span asp-validation-for="Periodo" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Activo">Estado</label>
+        <select asp-for="Activo">
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+        </select>
+    </div>
+    <div class="campo">
+        <label asp-for="DocenteId">Docente</label>
+        <select asp-for="DocenteId" asp-items="Model.Docentes">
+            <option value="">Sin docente</option>
+        </select>
+        <span asp-validation-for="DocenteId" class="error-campo"></span>
+    </div>
+    <div class="acciones">
+        <button class="btn btn-primario" type="submit">Guardar</button>
+        <a class="btn btn-texto" href="/administrador/carreras">Cancelar</a>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

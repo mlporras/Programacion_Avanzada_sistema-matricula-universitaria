@@ -8,6 +8,7 @@
         _ => "Estudiante"
     };
     var nav = ViewData["Nav"] as string ?? "";
+    var docenteConCursos = Context.Items["DocenteConCursos"] as bool? == true;
     var nombre = User.FindFirst("nombre_completo")?.Value ?? User.Identity?.Name ?? "Usuario";
 }
 <!DOCTYPE html>
@@ -34,11 +35,29 @@
                 @if (rol == "administrador")
                 {
                     <a class="@(nav == "panel" ? "activo" : null)" href="/administrador" aria-current="@(nav == "panel" ? "page" : null)">Panel</a>
-                    <a class="@(nav == "carreras" ? "activo" : null)" href="/administrador/carreras" aria-current="@(nav == "carreras" ? "page" : null)">Carreras</a>
+                    <a class="@(nav == "usuarios" ? "activo" : null)" href="/administrador/usuarios" aria-current="@(nav == "usuarios" ? "page" : null)">Usuarios</a>
+                    <a class="@(nav == "carreras" ? "activo" : null)" href="/administrador/carreras" aria-current="@(nav == "carreras" ? "page" : null)">Carreras y cursos</a>
+                    <a class="@(nav == "matriculas" ? "activo" : null)" href="/administrador/matriculas" aria-current="@(nav == "matriculas" ? "page" : null)">Matrículas</a>
+                    <a class="@(nav == "calificaciones" ? "activo" : null)" href="/administrador/calificaciones" aria-current="@(nav == "calificaciones" ? "page" : null)">Calificaciones</a>
+                    <a class="@(nav == "auditoria" ? "activo" : null)" href="/administrador/auditoria" aria-current="@(nav == "auditoria" ? "page" : null)">Auditoría</a>
+                }
+                else if (rol == "docente")
+                {
+                    <a class="@(nav == "cursos" ? "activo" : null)" href="/docente/cursos" aria-current="@(nav == "cursos" ? "page" : null)">Mis cursos</a>
+                    @if (docenteConCursos)
+                    {
+                        <a class="@(nav == "estudiantes" ? "activo" : null)" href="/docente/estudiantes">Estudiantes</a>
+                        <a class="@(nav == "calificaciones" ? "activo" : null)" href="/docente/calificaciones">Calificaciones</a>
+                        <a class="@(nav == "reportes" ? "activo" : null)" href="/docente/reportes">Reportes</a>
+                    }
                 }
                 else
                 {
-                    <a class="@(nav == "inicio" ? "activo" : null)" href="/sesion" aria-current="@(nav == "inicio" ? "page" : null)">Inicio</a>
+                    <a class="@(nav == "inicio" ? "activo" : null)" href="/estudiante" aria-current="@(nav == "inicio" ? "page" : null)">Inicio</a>
+                    <a class="@(nav == "carrera" ? "activo" : null)" href="/estudiante/carrera" aria-current="@(nav == "carrera" ? "page" : null)">Carrera</a>
+                    <a class="@(nav == "oferta" ? "activo" : null)" href="/estudiante/cursos" aria-current="@(nav == "oferta" ? "page" : null)">Cursos disponibles</a>
+                    <a class="@(nav == "miscursos" ? "activo" : null)" href="/estudiante/mis-cursos" aria-current="@(nav == "miscursos" ? "page" : null)">Mis cursos</a>
+                    <a class="@(nav == "calificaciones" ? "activo" : null)" href="/estudiante/calificaciones" aria-current="@(nav == "calificaciones" ? "page" : null)">Calificaciones</a>
                 }
             </nav>
         </aside>

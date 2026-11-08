@@ -1,0 +1,54 @@
+@model IReadOnlyList<UsuarioFilaVm>
+<p class="miga">Panel / Usuarios</p>
+<h1>Usuarios y roles</h1>
+<p class="ayuda">Busque por nombre o correo, filtre por rol y estado, y registre una cuenta nueva.</p>
+<form class="filtros" method="get" action="/administrador/usuarios">
+    <label>Buscar
+        <input type="search" name="busqueda" value="@ViewData["Busqueda"]" placeholder="Nombre o correo" />
+    </label>
+    <label>Rol
+        <select name="rol">
+            <option value="">Todos</option>
+            @foreach (var rol in new[] { "Administrador", "Docente", "Estudiante" })
+            {
+                <option value="@rol" selected="@(ViewData["Rol"] as string == rol ? "selected" : null)">@rol</option>
+            }
+        </select>
+    </label>
+    <label>Estado
+        <select name="estado">
+            <option value="">Todos</option>
+            <option value="activo" selected="@(ViewData["Estado"] as string == "activo" ? "selected" : null)">Activo</option>
+            <option value="inactivo" selected="@(ViewData["Estado"] as string == "inactivo" ? "selected" : null)">Inactivo</option>
+        </select>
+    </label>
+    <button class="btn btn-secundario" type="submit">Buscar</button>
+    <a class="btn btn-primario" href="/administrador/usuarios/nuevo">Nuevo usuario</a>
+</form>
+<div class="tabla-contenedor">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count == 0)
+            {
+                <tr><td colspan="4">Sin resultados para los filtros seleccionados.</td></tr>
+            }
+            @foreach (var persona in Model)
+            {
+                <tr>
+                    <td>@persona.Nombre</td>
+                    <td>@persona.Correo</td>
+                    <td>@persona.Rol</td>
+                    <td><span class="insignia @(persona.Activo ? "insignia-activo" : "insignia-inactivo")">@(persona.Activo ? "Activo" : "Inactivo")</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

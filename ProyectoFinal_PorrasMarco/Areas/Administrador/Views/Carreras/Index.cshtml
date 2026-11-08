@@ -1,10 +1,12 @@
 @model OfertaAdministradorVm
-<p class="miga">Panel / Carreras</p>
-<h1>Carreras</h1>
-<p class="ayuda">Administre las carreras. Los registros marcados como demostración son datos sintéticos.</p>
+<p class="miga">Panel / Carreras y cursos</p>
+<h1>Carreras y cursos</h1>
+<p class="ayuda">Administre la oferta. Los registros marcados como demostración son datos sintéticos.</p>
 <div class="acciones" style="margin-bottom:16px;">
     <a class="btn btn-primario" href="/administrador/carreras/nueva">Nueva carrera</a>
+    <a class="btn btn-primario" href="/administrador/cursos/nuevo">Nuevo curso</a>
 </div>
+<h2>Carreras</h2>
 <div class="tabla-contenedor">
     <table>
         <thead>
@@ -27,3 +29,52 @@
         </tbody>
     </table>
 </div>
+<section class="seccion">
+    <h2>Cursos</h2>
+    <form class="filtros" method="get" action="/administrador/carreras">
+        <label>Carrera
+            <select name="carreraId">
+                <option value="">Todas</option>
+                @foreach (var carrera in Model.Carreras)
+                {
+                    <option value="@carrera.Id" selected="@(Model.CarreraId == carrera.Id ? "selected" : null)">@carrera.Nombre</option>
+                }
+            </select>
+        </label>
+        <label>Periodo
+            <select name="periodo">
+                <option value="">Todos</option>
+                @foreach (var periodo in Model.Periodos)
+                {
+                    <option value="@periodo" selected="@(Model.Periodo == periodo ? "selected" : null)">@periodo</option>
+                }
+            </select>
+        </label>
+        <button class="btn btn-secundario" type="submit">Filtrar</button>
+    </form>
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr><th>Código</th><th>Curso</th><th>Carrera</th><th>Periodo</th><th>Docente</th><th>Estado</th><th>Acción</th></tr>
+            </thead>
+            <tbody>
+                @if (Model.Cursos.Count == 0)
+                {
+                    <tr><td colspan="7">No hay cursos para los filtros seleccionados.</td></tr>
+                }
+                @foreach (var curso in Model.Cursos)
+                {
+                    <tr>
+                        <td>@curso.Codigo</td>
+                        <td>@curso.Nombre @if (curso.EsDemostracion) { <span class="insignia insignia-demo">Demostración</span> }</td>
+                        <td>@curso.Carrera</td>
+                        <td>@curso.Periodo</td>
+                        <td>@curso.Docente</td>
+                        <td><span class="insignia @(curso.Activo ? "insignia-activo" : "insignia-inactivo")">@(curso.Activo ? "Activo" : "Inactivo")</span></td>
+                        <td><a href="/administrador/cursos/@curso.Id/editar">Editar</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

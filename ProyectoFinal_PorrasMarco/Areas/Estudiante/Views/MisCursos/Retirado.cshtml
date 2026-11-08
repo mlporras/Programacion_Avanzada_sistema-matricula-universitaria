@@ -1,0 +1,21 @@
+@model DetalleMatriculaVm
+<p class="miga">Mis cursos / Confirmación</p>
+<h1>Curso retirado</h1>
+<p class="ayuda">La carga académica quedó actualizada.</p>
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <div class="alerta alerta-exito" role="status">
+        <strong>Éxito · @Model.Mensaje</strong>
+        <p>@Model.Detalle</p>
+    </div>
+}
+<div class="tarjeta">
+    <dl class="resumen">
+        <div><dt>Curso</dt><dd>@Model.Codigo · @Model.Nombre</dd></div>
+        <div><dt>Estado</dt><dd>@Model.Estado</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        <a class="btn btn-primario" href="/estudiante/mis-cursos">Volver a Mis cursos</a>
+        <a class="btn btn-secundario" href="/estudiante/cursos">Ver cursos disponibles</a>
+    </div>
+</div>

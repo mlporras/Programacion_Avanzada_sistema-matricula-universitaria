@@ -1,0 +1,60 @@
+@model NuevoUsuarioVm
+<p class="miga">@ViewData["Miga"]</p>
+<h1>Nuevo usuario</h1>
+<p class="ayuda">Complete los datos obligatorios y asigne un rol. Guardar crea la cuenta si el correo no está registrado. La contraseña es necesaria porque el acceso es real.</p>
+@if (!ViewData.ModelState.IsValid)
+{
+    var causa = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
+    <div class="alerta alerta-error" role="alert">
+        <strong>Error · No se creó la cuenta</strong>
+        <p>@(causa ?? "Hay un campo obligatorio vacío, un correo inválido o un correo ya registrado.")</p>
+    </div>
+}
+<form class="tarjeta formulario" method="post">
+    @Html.AntiForgeryToken()
+    <div class="campo">
+        <label asp-for="Nombre">Nombre</label>
+        <input asp-for="Nombre" />
+        <span asp-validation-for="Nombre" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Correo">Correo</label>
+        <input asp-for="Correo" />
+        <span asp-validation-for="Correo" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Contrasena">Contraseña</label>
+        <input asp-for="Contrasena" autocomplete="new-password" />
+        <span class="nota">Mínimo 8 caracteres, con mayúscula, minúscula, número y símbolo.</span>
+        <span asp-validation-for="Contrasena" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="ConfirmarContrasena">Confirmar contraseña</label>
+        <input asp-for="ConfirmarContrasena" autocomplete="new-password" />
+        <span asp-validation-for="ConfirmarContrasena" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Rol">Rol</label>
+        <select asp-for="Rol">
+            <option value="">Seleccione un rol</option>
+            <option>Administrador</option>
+            <option>Docente</option>
+            <option>Estudiante</option>
+        </select>
+        <span asp-validation-for="Rol" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Activo">Estado</label>
+        <select asp-for="Activo">
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+        </select>
+    </div>
+    <div class="acciones">
+        <button class="btn btn-primario" type="submit">Guardar</button>
+        <a class="btn btn-texto" href="/administrador/usuarios">Cancelar</a>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

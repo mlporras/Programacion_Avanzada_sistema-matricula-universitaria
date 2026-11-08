@@ -1,0 +1,22 @@
+@model DetalleMatriculaVm
+<p class="miga">Mis cursos / Confirmación</p>
+<h1>Curso matriculado</h1>
+<p class="ayuda">El curso quedó en la carga académica del periodo.</p>
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <div class="alerta alerta-exito" role="status">
+        <strong>Éxito · @Model.Mensaje</strong>
+        <p>@Model.Detalle</p>
+    </div>
+}
+<div class="tarjeta">
+    <dl class="resumen">
+        <div><dt>Curso</dt><dd>@Model.Codigo · @Model.Nombre</dd></div>
+        <div><dt>Periodo</dt><dd>@Model.Periodo</dd></div>
+        <div><dt>Docente</dt><dd>@Model.Docente</dd></div>
+        <div><dt>Estado</dt><dd>@Model.Estado</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        <a class="btn btn-primario" href="/estudiante/mis-cursos">Ver Mis cursos</a>
+    </div>
+</div>

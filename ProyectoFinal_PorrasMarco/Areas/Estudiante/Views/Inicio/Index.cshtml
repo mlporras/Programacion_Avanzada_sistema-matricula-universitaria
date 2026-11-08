@@ -1,0 +1,47 @@
+@model PanelEstudianteVm
+<p class="miga">Inicio</p>
+<h1>Panel del estudiante</h1>
+<p class="ayuda">Resumen personal. Solo puede consultar y gestionar su propia información.</p>
+@if (TempData["Mensaje"] is string mensaje)
+{
+    <div class="alerta alerta-exito" role="status"><strong>Éxito · @mensaje</strong></div>
+}
+<section class="indicadores">
+    <article class="indicador">
+        <span>Carrera</span>
+        <strong>@Model.Carrera</strong>
+        <span>Selección guardada</span>
+    </article>
+    <article class="indicador">
+        <span>Cursos</span>
+        <strong>@Model.CursosActivos</strong>
+        <span>Carga activa</span>
+    </article>
+    <article class="indicador">
+        <span>Calificaciones</span>
+        <strong>Solo lectura</strong>
+        <span class="insignia insignia-lectura">Solo lectura</span>
+    </article>
+</section>
+<section class="accesos">
+    <article class="acceso">
+        <h2>Carrera</h2>
+        <p>Seleccionar o revisar la carrera.</p>
+        <a href="/estudiante/carrera">Abrir</a>
+    </article>
+    <article class="acceso">
+        <h2>Cursos disponibles</h2>
+        <p>Ver la oferta de la carrera seleccionada.</p>
+        <a href="/estudiante/cursos">Abrir</a>
+    </article>
+    <article class="acceso">
+        <h2>Mis cursos</h2>
+        <p>Consultar la carga matriculada.</p>
+        <a href="/estudiante/mis-cursos">Abrir</a>
+    </article>
+    <article class="acceso">
+        <h2>Calificaciones</h2>
+        <p>Abrir el reporte personal de solo lectura.</p>
+        <a href="/estudiante/calificaciones">Abrir</a>
+    </article>
+</section>

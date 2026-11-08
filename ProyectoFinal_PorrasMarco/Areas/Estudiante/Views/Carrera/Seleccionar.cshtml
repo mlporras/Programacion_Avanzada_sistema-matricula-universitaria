@@ -1,0 +1,33 @@
+@model SeleccionarCarreraVm
+<p class="miga">Inicio / Carrera</p>
+<h1>Seleccionar carrera</h1>
+<p class="ayuda">Elija una carrera activa. Guardar habilita la consulta de sus cursos.</p>
+@if (!ViewData.ModelState.IsValid)
+{
+    var causa = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
+    <div class="alerta alerta-error" role="alert">
+        <strong>Error · No se guardó la selección</strong>
+        <p>@(causa ?? "Seleccione una carrera activa.")</p>
+    </div>
+}
+<form class="tarjeta formulario" method="post" action="/estudiante/carrera">
+    @Html.AntiForgeryToken()
+    <div class="campo">
+        <label asp-for="CarreraId">Carrera</label>
+        <select asp-for="CarreraId" asp-items="Model.Carreras">
+            <option value="">Seleccione una carrera</option>
+        </select>
+        <span asp-validation-for="CarreraId" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label for="periodo-info">Periodo</label>
+        <input id="periodo-info" value="@DatosDemostracion.PeriodoActual" disabled />
+    </div>
+    <div class="acciones">
+        <button class="btn btn-primario" type="submit">Guardar selección</button>
+        <a class="btn btn-texto" href="/estudiante">Cancelar</a>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

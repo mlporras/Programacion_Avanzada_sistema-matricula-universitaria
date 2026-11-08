@@ -102,7 +102,7 @@ public class CuentaController : ControladorAplicacion
 
         await _sesion.PasswordSignInAsync(modelo.Correo.Trim(), modelo.Contrasena, isPersistent: false, lockoutOnFailure: false);
         TempData["Mensaje"] = "Cuenta de estudiante creada";
-        return Redirect("/sesion");
+        return Redirect("/estudiante");
     }
 
     [Authorize]
@@ -129,7 +129,12 @@ public class CuentaController : ControladorAplicacion
                 return Redirect("/administrador");
             }
 
-            return Redirect("/sesion");
+            if (_usuarios.IsInRoleAsync(usuario, RolesSistema.Docente).GetAwaiter().GetResult())
+            {
+                return Redirect("/docente/cursos");
+            }
+
+            return Redirect("/estudiante");
         }
 
         if (User.IsInRole(RolesSistema.Administrador))
@@ -137,6 +142,11 @@ public class CuentaController : ControladorAplicacion
             return Redirect("/administrador");
         }
 
-        return Redirect("/sesion");
+        if (User.IsInRole(RolesSistema.Docente))
+        {
+            return Redirect("/docente/cursos");
+        }
+
+        return Redirect("/estudiante");
     }
 }

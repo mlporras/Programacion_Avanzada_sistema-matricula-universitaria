@@ -1,0 +1,60 @@
+@model ReportePersonalVm
+<p class="miga">Inicio / Calificaciones</p>
+<h1>Reporte personal</h1>
+<p class="ayuda">Solo sus cursos y calificaciones. No existen controles de edición.</p>
+<span class="insignia insignia-lectura">Solo lectura</span>
+<form class="filtros" method="get" action="/estudiante/calificaciones" style="margin-top:16px;">
+    <label for="periodo">Periodo
+        <select id="periodo" name="periodo">
+            @foreach (var periodo in Model.Periodos)
+            {
+                <option value="@periodo" selected="@(Model.Periodo == periodo ? "selected" : null)">@periodo</option>
+            }
+        </select>
+    </label>
+    <button class="btn btn-primario" type="submit">Consultar</button>
+</form>
+<p class="nota">Escala: @Model.Escala</p>
+@if (Model.Vacio)
+{
+    <section class="estado-vacio">
+        <p class="meta">Estado vacío</p>
+        <h2>No hay calificaciones para el periodo seleccionado</h2>
+        <p>El periodo no contiene calificaciones propias. Puede elegir otro periodo.</p>
+        <a class="btn btn-primario" href="#periodo">Elegir otro periodo</a>
+        <a class="btn btn-secundario" href="/estudiante">Volver al inicio</a>
+    </section>
+}
+else
+{
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr><th>Curso</th><th>Calificación</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var fila in Model.Filas)
+                {
+                    <tr>
+                        <td>@fila.Curso</td>
+                        <td>
+                            @if (fila.Valor is null)
+                            {
+                                <span>Sin calificación registrada</span>
+                            }
+                            else
+                            {
+                                @fila.Valor.Value.ToString("0.##")
+                                @if (fila.EsDemostracion)
+                                {
+                                    <span class="insignia insignia-demo">Dato de demostración</span>
+                                }
+                            }
+                        </td>
+                        <td><span class="insignia insignia-lectura">Solo lectura</span> @fila.Estado</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

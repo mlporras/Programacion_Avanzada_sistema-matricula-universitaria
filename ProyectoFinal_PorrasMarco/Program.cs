@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinal_PorrasMarco.Data;
+using ProyectoFinal_PorrasMarco.Filters;
 using ProyectoFinal_PorrasMarco.Identity;
 using ProyectoFinal_PorrasMarco.Models;
 using ProyectoFinal_PorrasMarco.Servicios;
@@ -48,10 +49,16 @@ builder.Services.ConfigureApplicationCookie(opciones =>
 
 builder.Services.AddScoped<UsuarioServicio>();
 builder.Services.AddScoped<CarreraServicio>();
+builder.Services.AddScoped<CursoServicio>();
+builder.Services.AddScoped<OfertaServicio>();
+builder.Services.AddScoped<MatriculaServicio>();
+builder.Services.AddScoped<ReporteServicio>();
+builder.Services.AddScoped<NavegacionDocenteFilter>();
 
 builder.Services.AddControllersWithViews(opciones =>
 {
     opciones.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute());
+    opciones.Filters.Add(new Microsoft.AspNetCore.Mvc.ServiceFilterAttribute(typeof(NavegacionDocenteFilter)));
 });
 
 var app = builder.Build();

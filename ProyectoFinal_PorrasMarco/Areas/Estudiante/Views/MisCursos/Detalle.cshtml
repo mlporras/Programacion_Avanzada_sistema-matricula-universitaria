@@ -1,0 +1,24 @@
+@model DetalleMatriculaVm
+<p class="miga">Mis cursos / Detalle</p>
+<h1>Curso matriculado</h1>
+<p class="ayuda">Información de solo lectura. Desde aquí puede abrir el reporte personal del periodo.</p>
+<div class="tarjeta">
+    <span class="insignia insignia-lectura">Solo lectura</span>
+    <dl class="resumen" style="margin-top:16px;">
+        <div><dt>Código</dt><dd>@Model.Codigo</dd></div>
+        <div><dt>Curso</dt><dd>@Model.Nombre</dd></div>
+        <div><dt>Carrera</dt><dd>@Model.Carrera</dd></div>
+        <div><dt>Periodo</dt><dd>@Model.Periodo</dd></div>
+        <div><dt>Docente</dt><dd>@Model.Docente</dd></div>
+        <div><dt>Estado</dt><dd>@Model.Estado</dd></div>
+        <div><dt>Créditos</dt><dd>@(Model.Creditos ?? "No indicados")</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        <a class="btn btn-primario" href="/estudiante/calificaciones?periodo=@Uri.EscapeDataString(Model.Periodo)">Ver reporte personal</a>
+        <a class="btn btn-secundario" href="/estudiante/mis-cursos">Volver a Mis cursos</a>
+        @if (Model.Estado == "Activa")
+        {
+            <a class="btn btn-peligro" href="/estudiante/mis-cursos/@Model.MatriculaId/retirar">Retirar curso</a>
+        }
+    </div>
+</div>

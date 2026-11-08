@@ -1,0 +1,28 @@
+@model DetalleMatriculaVm
+<p class="miga">Mis cursos / Retiro</p>
+<h1>Retirar curso</h1>
+<div class="alerta alerta-advertencia" role="alert">
+    <strong>Advertencia · Esta acción actualiza su carga</strong>
+    <p>El curso dejará de aparecer como activo. El registro de matrícula se conserva.</p>
+</div>
+@if (!string.IsNullOrEmpty(Model.Mensaje) && Model.Mensaje != "Curso retirado")
+{
+    <div class="alerta alerta-error" role="alert"><p>@Model.Mensaje</p></div>
+}
+<div class="tarjeta">
+    <dl class="resumen">
+        <div><dt>Curso</dt><dd>@Model.Codigo · @Model.Nombre</dd></div>
+        <div><dt>Periodo</dt><dd>@Model.Periodo</dd></div>
+        <div><dt>Estado actual</dt><dd>@Model.Estado</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        @if (Model.Estado == "Activa")
+        {
+            <form method="post" action="/estudiante/mis-cursos/@Model.MatriculaId/retirar">
+                @Html.AntiForgeryToken()
+                <button class="btn btn-peligro" type="submit">Confirmar retiro</button>
+            </form>
+        }
+        <a class="btn btn-secundario" href="/estudiante/mis-cursos">Cancelar</a>
+    </div>
+</div>

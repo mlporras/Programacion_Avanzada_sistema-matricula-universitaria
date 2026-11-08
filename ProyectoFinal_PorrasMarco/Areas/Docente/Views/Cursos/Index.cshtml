@@ -1,0 +1,38 @@
+@model IReadOnlyList<CursoDocenteFilaVm>
+<p class="miga">Mis cursos</p>
+<h1>Mis cursos</h1>
+@if (Model.Count == 0)
+{
+    <section class="estado-vacio">
+        <p class="meta">Estado vacío</p>
+        <h2>No tiene cursos asignados</h2>
+        <p>No hay cursos activos asignados. Esta vista no ofrece botones para administrar listas ni calificaciones.</p>
+        <form method="post" action="/salir">
+            @Html.AntiForgeryToken()
+            <button class="btn btn-primario" type="submit">Cerrar sesión</button>
+        </form>
+    </section>
+}
+else
+{
+    <p class="ayuda">Solo se muestran los cursos activos asignados a la persona docente autenticada.</p>
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr><th>Código</th><th>Curso</th><th>Periodo</th><th>Estudiantes</th><th>Acción</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var curso in Model)
+                {
+                    <tr>
+                        <td>@curso.Codigo</td>
+                        <td>@curso.Nombre</td>
+                        <td>@curso.Periodo</td>
+                        <td>@curso.Estudiantes</td>
+                        <td><a href="/docente/cursos/@curso.Id">Ver curso</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

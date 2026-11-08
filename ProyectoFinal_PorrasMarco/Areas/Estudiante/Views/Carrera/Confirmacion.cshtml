@@ -1,0 +1,21 @@
+@model Carrera
+<p class="miga">Carrera / Confirmación</p>
+<h1>Carrera seleccionada</h1>
+<p class="ayuda">La selección quedó guardada y ya puede consultar los cursos asociados.</p>
+@if (ViewData["Mensaje"] is string mensaje)
+{
+    <div class="alerta alerta-exito" role="status">
+        <strong>Éxito · @mensaje</strong>
+        <p>La oferta muestra solo cursos activos de esta carrera.</p>
+    </div>
+}
+<div class="tarjeta">
+    <dl class="resumen">
+        <div><dt>Código</dt><dd>@Model.Codigo</dd></div>
+        <div><dt>Carrera</dt><dd>@Model.Nombre</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        <a class="btn btn-primario" href="/estudiante/cursos">Ver cursos</a>
+        <a class="btn btn-secundario" href="/estudiante">Volver al inicio</a>
+    </div>
+</div>
