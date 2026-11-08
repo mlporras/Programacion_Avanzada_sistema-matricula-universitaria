@@ -1,0 +1,34 @@
+@model IReadOnlyList<CursoDocenteFilaVm>
+<p class="miga">Estudiantes</p>
+<h1>Estudiantes</h1>
+@if (Model.Count == 0)
+{
+    <section class="estado-vacio">
+        <p class="meta">Estado vacío</p>
+        <h2>No tiene cursos asignados</h2>
+        <p>No hay cursos activos asignados. No se ofrecen acciones para agregar o remover estudiantes.</p>
+    </section>
+}
+else
+{
+    <p class="ayuda">Elija un curso asignado para ver y actualizar su lista.</p>
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr><th>Código</th><th>Curso</th><th>Periodo</th><th>Activos</th><th>Acción</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var curso in Model)
+                {
+                    <tr>
+                        <td>@curso.Codigo</td>
+                        <td>@curso.Nombre</td>
+                        <td>@Periodos.Etiqueta(curso.Periodo)</td>
+                        <td>@curso.Estudiantes</td>
+                        <td><a href="/docente/cursos/@curso.Id/estudiantes">Ver lista</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

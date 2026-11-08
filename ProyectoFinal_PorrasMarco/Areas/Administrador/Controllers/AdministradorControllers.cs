@@ -443,9 +443,6 @@ public class PendienteController : Controller
     [HttpGet("/administrador/calificaciones")]
     public IActionResult Calificaciones() => Vista("Calificaciones", "calificaciones");
 
-    [HttpGet("/administrador/auditoria")]
-    public IActionResult Auditoria() => Vista("Auditoría", "auditoria");
-
     private IActionResult Vista(string nombre, string nav)
     {
         ViewData["Title"] = nombre;

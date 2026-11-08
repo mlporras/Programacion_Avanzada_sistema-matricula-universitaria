@@ -1,7 +1,7 @@
 @model DetalleCursoDocenteVm
 <p class="miga">Mis cursos / Detalle</p>
 <h1>Curso asignado</h1>
-<p class="ayuda">Resumen de solo lectura. La administración de listas y calificaciones corresponde a una etapa posterior.</p>
+<p class="ayuda">Resumen del curso asignado. Desde aquí se consulta la lista de estudiantes.</p>
 <div class="tarjeta">
     <dl class="resumen">
         <div><dt>Código</dt><dd>@Model.Codigo</dd></div>
@@ -12,6 +12,7 @@
         <div><dt>Estudiantes activos</dt><dd>@Model.Estudiantes</dd></div>
     </dl>
     <div class="acciones" style="margin-top:16px;">
-        <a class="btn btn-primario" href="/docente/cursos">Volver a Mis cursos</a>
+        <a class="btn btn-primario" href="/docente/cursos/@Model.Id/estudiantes">Estudiantes del curso</a>
+        <a class="btn btn-secundario" href="/docente/cursos">Volver a Mis cursos</a>
     </div>
 </div>

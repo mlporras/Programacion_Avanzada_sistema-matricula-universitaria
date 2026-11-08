@@ -32,6 +32,11 @@ public static class InicializadorBd
             RolesSistema.Administrador,
             activo: true);
 
+        if (config.GetValue("Seed:RestablecerContrasenasSinteticas", false))
+        {
+            await RestablecerContrasenasSinteticasAsync(usuarios, config, logger);
+        }
+
         if (!config.GetValue("Seed:CargarDemostracion", true))
         {
             return;
@@ -276,6 +281,46 @@ public static class InicializadorBd
                 EsDatoDemostracion = true
             });
             await db.SaveChangesAsync();
+        }
+    }
+
+    private static async Task RestablecerContrasenasSinteticasAsync(
+        UserManager<ApplicationUser> usuarios,
+        IConfiguration config,
+        ILogger logger)
+    {
+        var admin = config["Seed:AdminPassword"];
+        var demostracion = config["Seed:ContrasenaDemostracion"];
+        var cuentas = new (string Correo, string? Contrasena)[]
+        {
+            (config["Seed:AdminEmail"] ?? CorreosDemostracion.Admin, admin),
+            (config["Seed:DocenteEmail"] ?? CorreosDemostracion.Docente, demostracion),
+            (config["Seed:DocenteSinCursosEmail"] ?? CorreosDemostracion.DocenteSinCursos, demostracion),
+            (config["Seed:DocenteInactivoEmail"] ?? CorreosDemostracion.DocenteInactivo, demostracion),
+            (config["Seed:EstudianteEmail"] ?? CorreosDemostracion.Estudiante, demostracion),
+            (config["Seed:EstudianteSinMatriculaEmail"] ?? CorreosDemostracion.EstudianteSinMatricula, demostracion)
+        };
+
+        foreach (var cuenta in cuentas)
+        {
+            if (string.IsNullOrWhiteSpace(cuenta.Contrasena))
+            {
+                logger.LogWarning("No se restableció {Correo} porque falta la contraseña en la configuración local.", cuenta.Correo);
+                continue;
+            }
+
+            var usuario = await usuarios.FindByEmailAsync(cuenta.Correo);
+            if (usuario is null)
+            {
+                continue;
+            }
+
+            var token = await usuarios.GeneratePasswordResetTokenAsync(usuario);
+            var cambio = await usuarios.ResetPasswordAsync(usuario, token, cuenta.Contrasena);
+            if (!cambio.Succeeded)
+            {
+                logger.LogError("No se restableció {Correo}: {Errores}", cuenta.Correo, string.Join(" ", cambio.Errors.Select(error => error.Description)));
+            }
         }
     }
 }

@@ -1,0 +1,36 @@
+@model ListaEstudiantesVm
+<p class="miga">Mis cursos / Estudiantes</p>
+<h1>Estudiantes de @Model.Codigo</h1>
+<p class="ayuda">@Model.Nombre · @Model.Periodo. Solo estudiantes con matrícula activa.</p>
+<div class="acciones" style="margin-bottom:16px;">
+    <a class="btn btn-primario" href="/docente/cursos/@Model.CursoId/estudiantes/agregar">Agregar estudiante</a>
+    <a class="btn btn-secundario" href="/docente/cursos/@Model.CursoId">Volver al curso</a>
+</div>
+@if (Model.Estudiantes.Count == 0)
+{
+    <section class="estado-vacio">
+        <p class="meta">Estado vacío</p>
+        <h2>No hay estudiantes activos</h2>
+        <p>Este curso no tiene matrículas activas. Puede agregar un estudiante de la carrera.</p>
+    </section>
+}
+else
+{
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr><th>Estudiante</th><th>Correo</th><th>Acción</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var estudiante in Model.Estudiantes)
+                {
+                    <tr>
+                        <td>@estudiante.Nombre</td>
+                        <td>@estudiante.Correo</td>
+                        <td><a href="/docente/cursos/@Model.CursoId/estudiantes/@estudiante.MatriculaId/remover">Remover</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

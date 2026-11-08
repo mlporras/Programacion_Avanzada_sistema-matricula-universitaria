@@ -1,0 +1,8 @@
+@model ConfirmacionListaVm
+<p class="miga">Estudiantes / Confirmación</p>
+<h1>@Model.Mensaje</h1>
+<div class="alerta alerta-exito" role="status">
+    <strong>Éxito · @Model.Mensaje</strong>
+    <p>@Model.Estudiante · @Model.Curso. La acción quedó registrada para la consulta administrativa.</p>
+</div>
+<a class="btn btn-primario" href="/docente/cursos/@Model.CursoId/estudiantes">Volver a la lista</a>

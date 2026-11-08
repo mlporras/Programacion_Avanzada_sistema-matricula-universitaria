@@ -23,6 +23,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Calificacion> Calificaciones => Set<Calificacion>();
 
+    public DbSet<MovimientoMatricula> MovimientosMatricula => Set<MovimientoMatricula>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -106,6 +108,23 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             entidad.HasOne(calificacion => calificacion.Matricula)
                 .WithOne(matricula => matricula.Calificacion)
                 .HasForeignKey<Calificacion>(calificacion => calificacion.MatriculaId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        builder.Entity<MovimientoMatricula>(entidad =>
+        {
+            entidad.Property(movimiento => movimiento.UsuarioResponsableId).HasMaxLength(450).IsRequired();
+            entidad.Property(movimiento => movimiento.Accion).HasMaxLength(20).IsRequired();
+            entidad.Property(movimiento => movimiento.EstadoAnterior).HasMaxLength(20).IsRequired();
+            entidad.Property(movimiento => movimiento.EstadoNuevo).HasMaxLength(20).IsRequired();
+            entidad.Property(movimiento => movimiento.Justificacion).HasMaxLength(500).IsRequired();
+            entidad.HasOne(movimiento => movimiento.Curso)
+                .WithMany()
+                .HasForeignKey(movimiento => movimiento.CursoId)
+                .OnDelete(DeleteBehavior.Restrict);
+            entidad.HasOne(movimiento => movimiento.Estudiante)
+                .WithMany()
+                .HasForeignKey(movimiento => movimiento.EstudianteId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
     }
