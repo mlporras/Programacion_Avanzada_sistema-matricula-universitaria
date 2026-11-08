@@ -1,0 +1,30 @@
+@{
+    if (User.Identity?.IsAuthenticated != true)
+    {
+        Layout = "_LayoutAcceso";
+    }
+    ViewData["Title"] = "Acceso no autorizado";
+}
+@if (User.Identity?.IsAuthenticated != true)
+{
+    <p class="kicker">Acceso</p>
+}
+<div class="alerta alerta-error" role="alert">
+    <strong>Error · Acceso no autorizado</strong>
+    <h1>Acceso no autorizado</h1>
+    <p>No tiene permiso para abrir esta función. No se muestra información de otras personas ni datos restringidos.</p>
+    <div class="acciones" style="margin-top:16px;">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a class="btn btn-primario" href="/">Volver a mi panel</a>
+            <form method="post" action="/salir">
+                @Html.AntiForgeryToken()
+                <button class="btn btn-secundario" type="submit">Cerrar sesión</button>
+            </form>
+        }
+        else
+        {
+            <a class="btn btn-acceso" href="/ingresar">Volver al inicio de sesión</a>
+        }
+    </div>
+</div>

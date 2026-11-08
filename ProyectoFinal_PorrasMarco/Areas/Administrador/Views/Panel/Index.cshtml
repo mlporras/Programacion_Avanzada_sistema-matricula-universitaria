@@ -1,0 +1,23 @@
+@model PanelAdministradorVm
+<p class="miga">Panel</p>
+<h1>Panel del administrador</h1>
+<p class="ayuda">Resumen de cuentas y carreras. Los cursos y la matrícula se agregan en el siguiente avance.</p>
+<section class="indicadores">
+    <article class="indicador">
+        <span>Usuarios</span>
+        <strong>@Model.Usuarios</strong>
+        <span>Cuentas registradas</span>
+    </article>
+    <article class="indicador">
+        <span>Carreras</span>
+        <strong>@Model.CursosActivos</strong>
+        <span>Carreras registradas</span>
+    </article>
+</section>
+<section class="accesos">
+    <article class="acceso">
+        <h2>Carreras</h2>
+        <p>Crear y actualizar las carreras de la institución.</p>
+        <a href="/administrador/carreras">Abrir</a>
+    </article>
+</section>

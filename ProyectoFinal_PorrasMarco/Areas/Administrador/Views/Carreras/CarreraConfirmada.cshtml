@@ -1,0 +1,21 @@
+@model ConfirmacionCarreraVm
+<p class="miga">Carreras y cursos / Confirmación</p>
+<h1>@(Model.Mensaje ?? "Carrera guardada")</h1>
+<p class="ayuda">La carrera quedó registrada y puede consultarse en la lista.</p>
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <div class="alerta alerta-exito" role="status">
+        <strong>Éxito · @Model.Mensaje</strong>
+        <p>El código no se duplicó.</p>
+    </div>
+}
+<div class="tarjeta">
+    <dl class="resumen">
+        <div><dt>Código</dt><dd>@Model.Codigo</dd></div>
+        <div><dt>Nombre</dt><dd>@Model.Nombre</dd></div>
+        <div><dt>Estado</dt><dd>@Model.Estado</dd></div>
+    </dl>
+    <div class="acciones" style="margin-top:16px;">
+        <a class="btn btn-primario" href="/administrador/carreras">Volver a carreras y cursos</a>
+    </div>
+</div>

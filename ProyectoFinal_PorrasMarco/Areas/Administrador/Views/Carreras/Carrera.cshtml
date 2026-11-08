@@ -1,0 +1,39 @@
+@model CarreraFormVm
+<p class="miga">@ViewData["Miga"]</p>
+<h1>@ViewData["Title"]</h1>
+<p class="ayuda">El código identifica la carrera. Desactivar conserva el historial y evita usarla en cursos nuevos.</p>
+@if (!ViewData.ModelState.IsValid)
+{
+    var causa = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
+    <div class="alerta alerta-error" role="alert">
+        <strong>Error · No se guardó la carrera</strong>
+        <p>@(causa ?? "Revise los campos marcados.")</p>
+    </div>
+}
+<form class="tarjeta formulario" method="post">
+    @Html.AntiForgeryToken()
+    <div class="campo">
+        <label asp-for="Codigo">Código</label>
+        <input asp-for="Codigo" />
+        <span asp-validation-for="Codigo" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Nombre">Nombre</label>
+        <input asp-for="Nombre" />
+        <span asp-validation-for="Nombre" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Activa">Estado</label>
+        <select asp-for="Activa">
+            <option value="true">Activa</option>
+            <option value="false">Inactiva</option>
+        </select>
+    </div>
+    <div class="acciones">
+        <button class="btn btn-primario" type="submit">Guardar</button>
+        <a class="btn btn-texto" href="/administrador/carreras">Cancelar</a>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

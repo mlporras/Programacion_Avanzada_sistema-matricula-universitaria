@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · Universidad Marco Porras</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="rol-acceso">
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <div class="acceso-pagina">
+        <section class="panel-marca">
+            <div>
+                <a class="marca" href="/ingresar">
+                    <span class="monograma" aria-hidden="true">@DatosDemostracion.Logotipo</span>
+                </a>
+                <p class="institucion">Universidad Marco Porras</p>
+                <h1>@DatosDemostracion.NombreSistema</h1>
+                <p>Matrícula, cursos y calificaciones según el rol de la persona autenticada.</p>
+            </div>
+            <p class="pie-marca">Datos provisionales para fines académicos</p>
+        </section>
+        <section class="panel-formulario">
+            <div class="bloque-acceso" id="contenido">
+                @RenderBody()
+            </div>
+        </section>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

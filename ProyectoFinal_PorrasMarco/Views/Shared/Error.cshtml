@@ -1,0 +1,11 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+<h1>No se pudo completar la solicitud</h1>
+<p class="ayuda">Ocurrió un problema al procesar la página. Puede volver al inicio.</p>
+@if (Model.ShowRequestId)
+{
+    <p class="nota">Referencia: @Model.RequestId</p>
+}
+<a class="btn btn-primario" href="/">Volver al inicio</a>

@@ -1,0 +1,52 @@
+@model IngresoVm
+@{
+    Layout = "_LayoutAcceso";
+    ViewData["Title"] = "Inicio de sesión";
+    var returnUrl = ViewData["ReturnUrl"] as string;
+}
+<p class="kicker">Acceso</p>
+<h1>Inicio de sesión</h1>
+<p class="ayuda">Ingrese el correo y la contraseña de su cuenta. El registro público crea únicamente estudiantes.</p>
+@if (!ViewData.ModelState.IsValid)
+{
+    var causa = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
+    <div class="alerta alerta-error" role="alert">
+        <strong>Error · Las credenciales no son válidas</strong>
+        <p>@(causa ?? "Revise el correo y la contraseña. El correo ingresado se conserva para corregirlo.")</p>
+    </div>
+}
+<form method="post" action="/ingresar">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+    <div class="campo">
+        <label asp-for="Correo">Correo</label>
+        <input asp-for="Correo" autocomplete="username" placeholder="Ingrese el correo" />
+        <span asp-validation-for="Correo" class="error-campo"></span>
+    </div>
+    <div class="campo">
+        <label asp-for="Contrasena">Contraseña</label>
+        <input asp-for="Contrasena" autocomplete="current-password" placeholder="Ingrese la contraseña" />
+        <span asp-validation-for="Contrasena" class="error-campo"></span>
+    </div>
+    <div class="acciones">
+        <button class="btn btn-acceso" type="submit">Ingresar</button>
+    </div>
+</form>
+<p><a href="/registro">Crear cuenta de estudiante</a></p>
+<section class="roles-demo" aria-label="Qué permite cada rol">
+    <article class="tarjeta-rol admin">
+        <h2>Administrador</h2>
+        <p>Panel institucional, usuarios, oferta y auditoría. Requiere una cuenta con ese rol.</p>
+    </article>
+    <article class="tarjeta-rol docente">
+        <h2>Docente</h2>
+        <p>Cursos asignados. Requiere una cuenta con ese rol.</p>
+    </article>
+    <article class="tarjeta-rol estudiante">
+        <h2>Estudiante</h2>
+        <p>Carrera, matrícula y reporte personal. Puede crear su cuenta o usar una existente.</p>
+    </article>
+</section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

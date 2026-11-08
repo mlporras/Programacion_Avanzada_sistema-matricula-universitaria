@@ -1,0 +1,11 @@
+@{
+    ViewData["Title"] = "Sesión iniciada";
+    ViewData["Nav"] = "inicio";
+}
+<p class="miga">Inicio</p>
+<h1>Sesión iniciada</h1>
+@if (TempData["Mensaje"] is string mensaje)
+{
+    <div class="alerta alerta-exito" role="status"><strong>Éxito · @mensaje</strong></div>
+}
+<p class="ayuda">Su cuenta está activa. La consulta de cursos y la matrícula se agregan en el siguiente avance.</p>

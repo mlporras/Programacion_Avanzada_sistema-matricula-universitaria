@@ -1,0 +1,70 @@
+﻿@{
+    var rol = User.IsInRole(RolesSistema.Administrador) ? "administrador"
+        : User.IsInRole(RolesSistema.Docente) ? "docente" : "estudiante";
+    var rolTexto = rol switch
+    {
+        "administrador" => "Administrador",
+        "docente" => "Docente",
+        _ => "Estudiante"
+    };
+    var nav = ViewData["Nav"] as string ?? "";
+    var nombre = User.FindFirst("nombre_completo")?.Value ?? User.Identity?.Name ?? "Usuario";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · Universidad Marco Porras</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="rol-@rol">
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <div class="app">
+        <aside class="barra">
+            <a class="marca" href="/">
+                <span class="monograma" aria-hidden="true">@DatosDemostracion.Logotipo</span>
+                <span class="marca-nombre">Universidad Marco Porras</span>
+            </a>
+            <span class="rol-pill">@rolTexto</span>
+            <nav class="menu" aria-label="Principal">
+                @if (rol == "administrador")
+                {
+                    <a class="@(nav == "panel" ? "activo" : null)" href="/administrador" aria-current="@(nav == "panel" ? "page" : null)">Panel</a>
+                    <a class="@(nav == "carreras" ? "activo" : null)" href="/administrador/carreras" aria-current="@(nav == "carreras" ? "page" : null)">Carreras</a>
+                }
+                else
+                {
+                    <a class="@(nav == "inicio" ? "activo" : null)" href="/sesion" aria-current="@(nav == "inicio" ? "page" : null)">Inicio</a>
+                }
+            </nav>
+        </aside>
+        <div class="columna">
+            <header class="superior">
+                <div>
+                    <button class="btn btn-secundario menu-movil" type="button" id="abrir-menu">Menú</button>
+                    <p class="periodo">@DatosDemostracion.PeriodoActual <span>Datos provisionales para fines académicos</span></p>
+                </div>
+                <div class="sesion">
+                    <span class="chip">@rolTexto</span>
+                    <span class="nombre-usuario">@nombre</span>
+                    <form method="post" action="/salir">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-secundario" type="submit">Cerrar sesión</button>
+                    </form>
+                </div>
+            </header>
+            <main class="contenido" id="contenido">
+                <div class="pagina">
+                    @RenderBody()
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
