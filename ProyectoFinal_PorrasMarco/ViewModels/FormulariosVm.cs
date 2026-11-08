@@ -97,7 +97,7 @@ public class CursoFormVm
 
     [Required(ErrorMessage = "El periodo es obligatorio.")]
     [StringLength(40, ErrorMessage = "El periodo admite hasta 40 caracteres.")]
-    public string Periodo { get; set; } = DatosDemostracion.PeriodoActual;
+    public string Periodo { get; set; } = DatosDemostracion.PeriodoConNotas;
 
     public bool Activo { get; set; } = true;
 

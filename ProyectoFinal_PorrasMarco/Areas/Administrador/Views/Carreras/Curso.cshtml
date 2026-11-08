@@ -1,7 +1,7 @@
 @model CursoFormVm
 <p class="miga">@ViewData["Miga"]</p>
 <h1>Curso</h1>
-<p class="ayuda">Formulario de creación o actualización. La carrera y el docente deben estar activos.</p>
+<p class="ayuda">Formulario de creación o actualización. La carrera y el docente deben estar activos. Desactivar conserva matrículas e historial. El periodo se guarda como código: 2026-1 es I semestre 2026 y 2026-2 es II semestre 2026.</p>
 @if (!ViewData.ModelState.IsValid)
 {
     var causa = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();

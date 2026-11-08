@@ -1,7 +1,8 @@
+@model string
 <p class="miga">Cursos disponibles</p>
 <div class="alerta alerta-error" role="alert">
     <strong>Error · El curso no está disponible</strong>
     <h1>Curso no disponible</h1>
     <p>El curso no pertenece a su carrera, ya no está activo o no existe. No se muestran datos de otra oferta y no se modificó su carga.</p>
-    <a class="btn btn-primario" href="/estudiante/cursos">Volver a la oferta</a>
+    <a class="btn btn-primario" href="/estudiante/cursos?periodo=@Model">Volver a la oferta</a>
 </div>

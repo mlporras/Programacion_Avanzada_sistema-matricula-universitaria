@@ -92,10 +92,19 @@ public class CursoOfertaFilaVm
     public bool YaMatriculado { get; set; }
 }
 
+public class PeriodoOpcionVm
+{
+    public string Codigo { get; set; } = string.Empty;
+    public string Etiqueta { get; set; } = string.Empty;
+}
+
 public class OfertaEstudianteVm
 {
     public bool SinCarrera { get; set; }
     public string Carrera { get; set; } = string.Empty;
+    public string Periodo { get; set; } = string.Empty;
+    public string PeriodoEtiqueta { get; set; } = string.Empty;
+    public List<PeriodoOpcionVm> Periodos { get; set; } = [];
     public List<CursoOfertaFilaVm> Cursos { get; set; } = [];
 }
 
@@ -109,6 +118,7 @@ public class DetalleCursoDisponibleVm
     public string? Creditos { get; set; }
     public bool YaMatriculado { get; set; }
     public string? Error { get; set; }
+    public string PeriodoConsulta { get; set; } = string.Empty;
 }
 
 public class CursoMatriculadoFilaVm
