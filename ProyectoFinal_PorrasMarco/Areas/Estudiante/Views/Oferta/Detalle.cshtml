@@ -14,12 +14,12 @@
     <div class="acciones" style="margin-top:16px;">
         @if (!Model.YaMatriculado)
         {
-            <a class="btn btn-primario" href="/estudiante/cursos/@Model.Id/confirmar">Matricular</a>
+            <a class="btn btn-primario" href="/estudiante/cursos/@Model.Id/confirmar?periodo=@Model.PeriodoConsulta">Matricular</a>
         }
         else
         {
             <a class="btn btn-secundario" href="/estudiante/mis-cursos">Ver Mis cursos</a>
         }
-        <a class="btn btn-texto" href="/estudiante/cursos">Volver a la oferta</a>
+        <a class="btn btn-texto" href="/estudiante/cursos?periodo=@Model.PeriodoConsulta">Volver a la oferta</a>
     </div>
 </div>

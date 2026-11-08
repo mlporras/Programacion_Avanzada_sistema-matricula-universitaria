@@ -10,36 +10,50 @@
         <a class="btn btn-primario" href="/estudiante/carrera">Seleccionar carrera</a>
     </section>
 }
-else if (Model.Cursos.Count == 0)
-{
-    <section class="estado-vacio">
-        <p class="meta">Estado vacío</p>
-        <h2>No hay cursos disponibles</h2>
-        <p>No existen cursos activos para @Model.Carrera. No se ofrecen acciones de matrícula.</p>
-        <a class="btn btn-primario" href="/estudiante/carrera">Cambiar carrera</a>
-        <a class="btn btn-secundario" href="/estudiante">Volver al inicio</a>
-    </section>
-}
 else
 {
-    <p class="ayuda">Solo cursos activos de @Model.Carrera.</p>
-    <div class="tabla-contenedor">
-        <table>
-            <thead>
-                <tr><th>Código</th><th>Curso</th><th>Periodo</th><th>Docente</th><th>Acción</th></tr>
-            </thead>
-            <tbody>
-                @foreach (var curso in Model.Cursos)
+    <form class="filtros" method="get" action="/estudiante/cursos">
+        <label for="periodo">Periodo
+            <select id="periodo" name="periodo">
+                @foreach (var periodo in Model.Periodos)
                 {
-                    <tr>
-                        <td>@curso.Codigo</td>
-                        <td>@curso.Nombre</td>
-                        <td>@curso.Periodo</td>
-                        <td>@curso.Docente</td>
-                        <td><a href="/estudiante/cursos/@curso.Id">Ver curso</a></td>
-                    </tr>
+                    <option value="@periodo.Codigo" selected="@(Model.Periodo == periodo.Codigo ? "selected" : null)">@periodo.Etiqueta</option>
                 }
-            </tbody>
-        </table>
-    </div>
+            </select>
+        </label>
+        <button class="btn btn-secundario" type="submit">Consultar</button>
+    </form>
+    @if (Model.Cursos.Count == 0)
+    {
+        <section class="estado-vacio">
+            <p class="meta">Estado vacío</p>
+            <h2>No hay cursos disponibles</h2>
+            <p>No existen cursos activos para @Model.Carrera en @Model.PeriodoEtiqueta. No se ofrecen acciones de matrícula.</p>
+            <a class="btn btn-primario" href="/estudiante/carrera">Cambiar carrera</a>
+            <a class="btn btn-secundario" href="/estudiante">Volver al inicio</a>
+        </section>
+    }
+    else
+    {
+        <p class="ayuda">Solo cursos activos de @Model.Carrera en @Model.PeriodoEtiqueta.</p>
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr><th>Código</th><th>Curso</th><th>Periodo</th><th>Docente</th><th>Acción</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var curso in Model.Cursos)
+                    {
+                        <tr>
+                            <td>@curso.Codigo</td>
+                            <td>@curso.Nombre</td>
+                            <td>@curso.Periodo</td>
+                            <td>@curso.Docente</td>
+                            <td><a href="/estudiante/cursos/@curso.Id?periodo=@Model.Periodo">Ver curso</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 }

@@ -134,7 +134,7 @@ public class OfertaController : ControladorAplicacion
     }
 
     [HttpGet("/estudiante/cursos")]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? periodo)
     {
         ViewData["Title"] = "Cursos disponibles";
         ViewData["Nav"] = "oferta";
@@ -145,17 +145,22 @@ public class OfertaController : ControladorAplicacion
             return View(new OfertaEstudianteVm { SinCarrera = true });
         }
 
+        var seleccionado = Periodos.Normalizar(periodo);
         var activos = await IdsMatriculadosAsync(estudiante.Id);
-        var cursos = await _oferta.CursosDisponiblesAsync(UsuarioId);
+        var cursos = await _oferta.CursosDisponiblesAsync(UsuarioId, seleccionado);
+        var opciones = Periodos.Opciones(await _oferta.PeriodosDeCarreraAsync(estudiante.CarreraId.Value));
         return View(new OfertaEstudianteVm
         {
             Carrera = estudiante.Carrera.Nombre,
+            Periodo = seleccionado,
+            PeriodoEtiqueta = Periodos.Etiqueta(seleccionado),
+            Periodos = opciones.Select(opcion => new PeriodoOpcionVm { Codigo = opcion.Codigo, Etiqueta = opcion.Etiqueta }).ToList(),
             Cursos = cursos.Select(curso => new CursoOfertaFilaVm
             {
                 Id = curso.Id,
                 Codigo = curso.Codigo,
                 Nombre = curso.Nombre,
-                Periodo = curso.Periodo,
+                Periodo = Periodos.Etiqueta(curso.Periodo),
                 Docente = curso.Docente?.Nombre ?? "Sin docente asignado",
                 YaMatriculado = activos.Contains(curso.Id)
             }).ToList()
@@ -163,30 +168,30 @@ public class OfertaController : ControladorAplicacion
     }
 
     [HttpGet("/estudiante/cursos/{id:int}")]
-    public async Task<IActionResult> Detalle(int id)
+    public async Task<IActionResult> Detalle(int id, string? periodo)
     {
         ViewData["Title"] = "Curso disponible";
         ViewData["Nav"] = "oferta";
         ViewData["Miga"] = "Cursos disponibles / Detalle";
-        var modelo = await CargarDisponibleAsync(id);
+        var modelo = await CargarDisponibleAsync(id, periodo);
         if (modelo is null)
         {
-            return View("NoDisponible");
+            return View("NoDisponible", Periodos.Normalizar(periodo));
         }
 
         return View(modelo);
     }
 
     [HttpGet("/estudiante/cursos/{id:int}/confirmar")]
-    public async Task<IActionResult> Confirmar(int id)
+    public async Task<IActionResult> Confirmar(int id, string? periodo)
     {
         ViewData["Title"] = "Confirmar matrícula";
         ViewData["Nav"] = "oferta";
         ViewData["Miga"] = "Cursos disponibles / Confirmación";
-        var modelo = await CargarDisponibleAsync(id);
+        var modelo = await CargarDisponibleAsync(id, periodo);
         if (modelo is null)
         {
-            return View("NoDisponible");
+            return View("NoDisponible", Periodos.Normalizar(periodo));
         }
 
         if (modelo.YaMatriculado)
@@ -198,12 +203,18 @@ public class OfertaController : ControladorAplicacion
     }
 
     [HttpPost("/estudiante/cursos/{id:int}/matricular")]
-    public async Task<IActionResult> Matricular(int id)
+    public async Task<IActionResult> Matricular(int id, string? periodo)
     {
+        var consulta = Periodos.Normalizar(periodo);
+        var modelo = await CargarDisponibleAsync(id, consulta);
+        if (modelo is null)
+        {
+            return View("NoDisponible", consulta);
+        }
+
         var resultado = await _matriculas.MatricularAsync(UsuarioId, id);
         if (!resultado.Exito || resultado.Id is null)
         {
-            var modelo = await CargarDisponibleAsync(id) ?? new DetalleCursoDisponibleVm { Id = id, Nombre = "Curso no disponible" };
             modelo.Error = resultado.Mensaje;
             ViewData["Title"] = "Matrícula";
             ViewData["Nav"] = "oferta";
@@ -215,7 +226,7 @@ public class OfertaController : ControladorAplicacion
         return Redirect($"/estudiante/mis-cursos/{resultado.Id}/resultado");
     }
 
-    private async Task<DetalleCursoDisponibleVm?> CargarDisponibleAsync(int id)
+    private async Task<DetalleCursoDisponibleVm?> CargarDisponibleAsync(int id, string? periodo)
     {
         var estudiante = await _oferta.EstudiantePorUsuarioAsync(UsuarioId);
         if (estudiante?.CarreraId is null)
@@ -223,8 +234,10 @@ public class OfertaController : ControladorAplicacion
             return null;
         }
 
+        var consulta = Periodos.Normalizar(periodo);
+        var equivalentes = Periodos.Equivalentes(consulta);
         var curso = await _db.Cursos.AsNoTracking().Include(item => item.Docente)
-            .FirstOrDefaultAsync(item => item.Id == id && item.Activo && item.CarreraId == estudiante.CarreraId);
+            .FirstOrDefaultAsync(item => item.Id == id && item.Activo && item.CarreraId == estudiante.CarreraId && equivalentes.Contains(item.Periodo));
         if (curso is null)
         {
             return null;
@@ -236,7 +249,8 @@ public class OfertaController : ControladorAplicacion
             Id = curso.Id,
             Codigo = curso.Codigo,
             Nombre = curso.Nombre,
-            Periodo = curso.Periodo,
+            Periodo = Periodos.Etiqueta(curso.Periodo),
+            PeriodoConsulta = consulta,
             Docente = curso.Docente?.Nombre ?? "Sin docente asignado",
             Creditos = curso.Creditos?.ToString(),
             YaMatriculado = activos.Contains(curso.Id)

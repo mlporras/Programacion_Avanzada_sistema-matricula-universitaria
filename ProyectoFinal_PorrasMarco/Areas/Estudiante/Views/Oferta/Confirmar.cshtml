@@ -24,10 +24,11 @@ else
         {
             <form method="post" action="/estudiante/cursos/@Model.Id/matricular">
                 @Html.AntiForgeryToken()
+                <input type="hidden" name="periodo" value="@Model.PeriodoConsulta" />
                 <button class="btn btn-primario" type="submit">Confirmar matrícula</button>
             </form>
         }
-        <a class="btn btn-secundario" href="/estudiante/cursos">Volver a la oferta</a>
+        <a class="btn btn-secundario" href="/estudiante/cursos?periodo=@Model.PeriodoConsulta">Volver a la oferta</a>
         <a class="btn btn-texto" href="/estudiante/mis-cursos">Ver Mis cursos</a>
     </div>
 </div>
